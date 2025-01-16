@@ -33,16 +33,34 @@
 	   <property name="exposeContextBeansAsAttributes" value="true" />
 	</bean>
 	
-		<!-- Interceptors -->
+		<!-- mvc url resource mapping -->
+	<mvc:resources mapping="/assets/upload-images/**"
+		location="file:/jblog-images/"/>
+
+	
+
+	<!-- Interceptors -->
 	<mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/user/auth" />
-			<bean class="jblog.security.LoginInterceptor" />
-		</mvc:interceptor>
-		<mvc:interceptor>
-			<mvc:mapping path="/user/logout" />
-			<bean class="jblog.security.LogoutInterceptor" />
-		</mvc:interceptor>
+	   
+	    <mvc:interceptor>
+	        <mvc:mapping path="/user/auth" />
+	        <bean class="jblog.security.LoginInterceptor" />
+	    </mvc:interceptor>
+	    
+	    
+	    <mvc:interceptor>
+	        <mvc:mapping path="/user/logout" />
+	        <bean class="jblog.security.LogoutInterceptor" />
+	    </mvc:interceptor>
+	    
+	    
+	    <mvc:interceptor>
+	        <mvc:mapping path="/**" />
+	        <mvc:exclude-mapping path="/user/auth" />
+	        <mvc:exclude-mapping path="/user/logout" />
+	        <mvc:exclude-mapping path="/assets/**" />
+	        <bean class="jblog.security.AuthInterceptor" />
+	    </mvc:interceptor>
 	</mvc:interceptors>
 		
 	<context:annotation-config />

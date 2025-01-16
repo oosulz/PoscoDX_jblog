@@ -1,8 +1,11 @@
 package jblog.service;
 
+import java.io.File;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import jblog.repository.BlogRepository;
 import jblog.repository.CategoryRepository;
@@ -31,16 +34,17 @@ public class UserService {
 	    BlogVo blogVo = new BlogVo();
 	    blogVo.setBlogId(userVo.getId());
 	    blogVo.setTitle(userVo.getName() + "의 블로그");
-	    blogVo.setProfile(""); // 변경 해야함
+	    blogVo.setProfile("/assets/images/initprofile.webp"); // 변경 해야함
 	    blogRepository.insert(blogVo);
-
+    	
 	    
 	    CategoryVo categoryVo = new CategoryVo();
 	    categoryVo.setId(categoryVo.getId());
 	    categoryVo.setName("미지정");
 	    categoryVo.setDescription("");
 	    categoryVo.setBlogId(blogVo.getBlogId());
-		categoryRepository.insert(categoryVo);
+	    
+		categoryRepository.insertCategory(categoryVo);
 	}
 	
 	public UserVo getUser(String id) {

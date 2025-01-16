@@ -7,7 +7,7 @@
 <link href="${pageContext.request.contextPath}/assets/css/mysite.css"
 	rel="stylesheet" type="text/css">
 
-
+<h1>${blogVo.title}</h1>
 <div id="menu">
 	<ul class="menu">
 		<c:choose>
@@ -18,7 +18,7 @@
 			</c:when>
 			<c:otherwise>
 				<li><a href="${pageContext.request.contextPath }/user/logout">로그아웃</a></li>
-				<li><a href="${pageContext.request.contextPath }/user/blog">내블로그</a></li>
+				<li><a href="${pageContext.request.contextPath }/${authUser.id}">내블로그</a></li>
 			</c:otherwise>
 		</c:choose>
 	</ul>

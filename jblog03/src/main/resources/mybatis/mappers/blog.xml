@@ -10,4 +10,20 @@
 		]]>
 	</insert>
 
+	<select id="findUserBlog" parameterType="string" resultType="blogvo">
+	SELECT  b.blog_id AS blogId,
+			b.title,
+			b.profile
+	FROM 	blog b
+	INNER JOIN 	user u
+	ON 		u.id = b.blog_id
+	WHERE 	u.id = #{id}
+	</select>
+	
+		<update id="update" parameterType="blogvo">
+	<![CDATA[
+			UPDATE blog SET blog_id = #{blogId}, title = #{title}, profile = #{profile} WHERE blog_id = #{blogId}
+		]]>
+	</update>
+
 </mapper>

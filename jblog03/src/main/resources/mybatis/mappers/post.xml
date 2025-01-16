@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="post">
+	<insert id="insertPost" parameterType="postvo">
+	<![CDATA[
+		insert
+		into post
+		values (null, #{title}, #{contents}, now(), #{categoryId})
+		]]>
+	</insert>
+
+	<!-- 
+	
+	<update id="plusHit" parameterType="long">
+	<![CDATA[
+			update board 
+			SET hit = hit + 1 
+			WHERE id = #{id}
+		]]>
+	</update>
+	
+	<select id="getMaxGroupNo" resultType ="int">
+	<![CDATA[
+			select IFNULL(Max(g_no),0) 
+			from board
+		]]>
+	</select>
+	
+
+	
+	<select id="findById" parameterType="long" resultType="boardvo">
+    <![CDATA[
+	    select 
+	        id,
+	        user_id as userId,
+	        title,
+	        contents,
+	        g_no as gNo,
+	        o_no as oNo,
+	        depth
+	    from board 
+	    where id = #{id}
+    ]]>
+</select>
+	
+	<delete id = "deleteById" parameterType="long">
+		<![CDATA[
+		delete 
+		from board 
+		where id=#{id}
+		]]>
+	</delete>
+	
+	<update id="updateOrderNo" parameterType="boardvo">
+	    <![CDATA[
+	    UPDATE board
+	    SET o_no = o_no + 1
+	    WHERE g_no = #{gNo} AND o_no >= #{oNo}
+	    ]]>
+	</update>
+	
+	<insert id="insertBoard" parameterType="boardvo">
+		<![CDATA[
+	    INSERT INTO board (title, contents, hit, reg_date, g_no, o_no, depth, user_id)
+	    VALUES (#{title}, #{contents}, 0, NOW(), #{gNo}, #{oNo}, #{depth}, #{userId})
+	    ]]>
+	</insert>
+
+	<update id="update" parameterType="boardvo">
+	<![CDATA[
+			UPDATE board SET title = #{title}, contents = #{contents} WHERE id = #{id}
+		]]>
+	</update>
+	
+	<select id="findByCurrentPageAndPageSize" parameterType="map" resultType="boardvo">
+	<![CDATA[
+	    SELECT 
+	        b.id,
+	        b.title,
+	        b.contents,
+	        b.hit,
+	        b.reg_date as regDate,
+	        b.g_no as gNo,
+	        b.o_no as oNo,
+	        b.depth,
+	        b.user_id as userId,
+	        u.name as userName
+	    FROM board b
+	    LEFT JOIN user u ON b.user_id = u.id
+	    ORDER BY b.g_no DESC, b.o_no ASC
+	    LIMIT #{currentpage}, #{pagesize}
+	]]>
+</select>
+	
+ -->
+</mapper>

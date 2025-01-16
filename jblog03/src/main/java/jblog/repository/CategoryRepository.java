@@ -1,25 +1,36 @@
 package jblog.repository;
 
-import javax.sql.DataSource;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import jblog.vo.CategoryVo;
 
 @Repository
 public class CategoryRepository {
-	
-	private DataSource dataSource;
 
 	private SqlSession sqlSession;
 
-	public CategoryRepository(DataSource dataSource, SqlSession sqlSession) {
-		this.dataSource = dataSource;
+	public CategoryRepository(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
 	}
 
-	public int insert(CategoryVo vo) {
+	public List<CategoryVo> findCategoryList(String id) {
+		return sqlSession.selectList("category.detail", id);
+	}
+	
+	public List<CategoryVo> findCategories(String id) {
+		return sqlSession.selectList("category.categories", id);
+	}
+	
+
+	public int insertCategory(CategoryVo vo) {
 		return sqlSession.insert("category.insert", vo);
+	}
+
+	public void deleteById(int id) {
+		sqlSession.delete("category.deleteById", id);
 	}
 }

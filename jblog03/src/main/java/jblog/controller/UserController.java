@@ -40,8 +40,6 @@ public class UserController {
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	public String join(@ModelAttribute UserVo userVo, BindingResult result, Model model) {
 
-		System.out.println("#####" + result);
-
 		if (result.hasErrors()) {
 			model.addAllAttributes(result.getModel());
 			return "user/join";

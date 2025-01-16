@@ -5,6 +5,8 @@ public class CategoryVo {
 	private String name;
 	private String description;
 	private String blogId;
+	private int totalCount;
+	
 
 	public int getId() {
 		return id;
@@ -18,6 +20,12 @@ public class CategoryVo {
 		return name;
 	}
 
+	@Override
+	public String toString() {
+		return "CategoryVo [id=" + id + ", name=" + name + ", description=" + description + ", blogId=" + blogId
+				+ ", postSum=" + totalCount + "]";
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -28,6 +36,14 @@ public class CategoryVo {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public int getTotalCount() {
+		return totalCount;
+	}
+
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
 	}
 
 	public String getBlogId() {

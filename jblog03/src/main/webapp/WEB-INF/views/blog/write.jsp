@@ -1,6 +1,6 @@
 <%@ taglib uri="jakarta.tags.core" prefix="c"%>
 <%@ taglib uri="jakarta.tags.fmt" prefix="fmt"%>
-<%@ taglib uri="jakarta.tags.functions" prefix="fn"%>fix="fn"%>
+<%@ taglib uri="jakarta.tags.functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!doctype html>
 <html>
@@ -12,29 +12,25 @@
 <body>
 	<div id="container">
 		<div id="header">
-			<h1>Spring 이야기</h1>
-			<ul>
-				<li><a href="">로그인</a></li>
-				<li><a href="">로그아웃</a></li>
-				<li><a href="">블로그 관리</a></li>
-			</ul>
+			<c:import url="/WEB-INF/views/includes/blogmenu.jsp" />
 		</div>
 		<div id="wrapper">
 			<div id="content" class="full-screen">
 				<ul class="admin-menu">
-					<li><a href="">기본설정</a></li>
-					<li><a href="">카테고리</a></li>
+					<li><a href="${pageContext.request.contextPath}/${authUser.id}/admin">기본설정</a></li>
+					<li><a href="${pageContext.request.contextPath}/${authUser.id}/admin/category">카테고리</a></li>
 					<li class="selected">글작성</li>
 				</ul>
-				<form action="" method="post">
+				<form action="${pageContext.request.contextPath}/${authUser.id}/admin/write" method="post">
 			      	<table class="admin-cat-write">
 			      		<tr>
 			      			<td class="t">제목</td>
 			      			<td>
 			      				<input type="text" size="60" name="title">
 				      			<select name="category">
-				      				<option>미분류</option>
-				      				<option>자바</option>
+				      				<c:forEach items="${categoryList}" var="category">
+				      					<option value="${category.id}">${category.name}</option>
+				      				</c:forEach>
 				      			</select>
 				      		</td>
 			      		</tr>
@@ -50,11 +46,7 @@
 				</form>
 			</div>
 		</div>
-		<div id="footer">
-			<p>
-				<strong>Spring 이야기</strong> is powered by JBlog (c)2016
-			</p>
-		</div>
+		<c:import url="/WEB-INF/views/includes/footer.jsp" />
 	</div>
 </body>
 </html>

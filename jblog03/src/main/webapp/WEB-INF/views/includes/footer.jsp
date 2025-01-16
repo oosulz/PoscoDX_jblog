@@ -3,5 +3,7 @@
 <%@ taglib uri="jakarta.tags.functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 		<div id="footer">
-			<p>(c)opyright 2024, 2025</p>
+			<p>
+				<strong>${blogVo.title}</strong> is powered by JBlog (c)2025
+			</p>
 		</div>

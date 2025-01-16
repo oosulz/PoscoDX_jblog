@@ -14,4 +14,33 @@
 		]]>
 		</selectKey>
 	</insert>
+	
+	<select id="detail" parameterType="string" resultType="categoryvo">
+		<![CDATA[
+			SELECT c.id, c.name, c.description, c.blog_id, COUNT(p.id) AS totalCount
+			FROM category c
+			LEFT JOIN post p ON c.id = p.category_id
+			WHERE c.blog_id = #{id}
+			GROUP BY c.id, c.name, c.description, c.blog_id
+		]]>
+	</select>
+	
+	<select id="categories" parameterType="string" resultType="categoryvo">
+		<![CDATA[
+			SELECT c.id, c.name, c.blog_id
+			FROM category c
+			WHERE c.blog_id = #{id}
+		]]>
+	</select>
+		
+		<delete id = "deleteById" parameterType="int">
+	    <![CDATA[
+		    delete from category
+	        where id = #{id}
+	    ]]>
+
+	</delete>
+	
+
+	
 </mapper>
