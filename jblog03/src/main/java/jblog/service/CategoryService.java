@@ -1,6 +1,7 @@
 package jblog.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,12 @@ public class CategoryService {
 	public List<CategoryVo> getCategoryList(String id) {
 		List<CategoryVo> categoryVo = categoryRepository.findCategoryList(id);
 		return categoryVo;
+	}
+	
+	public Optional<CategoryVo> getDefaultCategoryIdAndName(String blogId) {
+	    CategoryVo categoryVo = categoryRepository.getDefaultCategoryIdAndName(blogId);
+	    return Optional.ofNullable(categoryVo);
+
 	}
 	
 	@Transactional

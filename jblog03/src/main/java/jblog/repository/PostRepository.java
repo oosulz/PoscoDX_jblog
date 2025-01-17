@@ -25,37 +25,28 @@ public class PostRepository {
 	public int insertPost(PostVo postVo) {
 		return sqlSession.insert("post.insertPost",postVo);
 		
-	}	
+	}
 
-	/*
-	 * public int plusHit(Long id) { return sqlSession.update("board.plusHit", id);
-	 * }
-	 * 
-	 * private int getMaxGroupNo() { return
-	 * sqlSession.selectOne("board.getMaxGroupNo"); }
-	 * 
-	 * 
-	 * 
-	 * public PostVo findById(Long boardId) { return
-	 * sqlSession.selectOne("board.findById", boardId); }
-	 * 
-	 * public int deleteById(Long id) { return sqlSession.delete("board.deleteById",
-	 * id); }
-	 * 
-	 * public int insert(BoardVo vo) { if (vo.getgNo() == 0) {
-	 * vo.setgNo(getMaxGroupNo() + 1); vo.setoNo(1); vo.setDepth(0);
-	 * 
-	 * } else { sqlSession.update("board.updateOrderNo", vo); }
-	 * 
-	 * return sqlSession.insert("board.insertBoard", vo); }
-	 * 
-	 * public int update(BoardVo vo) { return sqlSession.update("board.update", vo);
-	 * }
-	 * 
-	 * public List<BoardVo> getList(int currentPage, int pageSize) { Map<String,
-	 * Integer> map = new HashMap<>(); map.put("currentpage", (currentPage - 1) *
-	 * pageSize); map.put("pagesize", pageSize);
-	 * 
-	 * return sqlSession.selectList("board.findByCurrentPageAndPageSize", map); }
-	 */
+	public PostVo getPost(int id) {
+		return sqlSession.selectOne("post.findById", id);	
+	}	
+	
+	
+	public PostVo getLastPost(String id, int categoryId) {
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("blogId", id);
+	    params.put("categoryId", categoryId);
+	    return sqlSession.selectOne("post.findLastById", params);
+	}
+	
+	
+	public PostVo getDefaultLastById(String id) {
+		return sqlSession.selectOne("post.findDefaultLastById", id);	
+	}
+	
+
+	public List<PostVo> findPostList(int id) {
+		return sqlSession.selectList("post.findListById", id);	
+	}
+
 }

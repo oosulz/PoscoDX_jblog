@@ -9,7 +9,57 @@
 		values (null, #{title}, #{contents}, now(), #{categoryId})
 		]]>
 	</insert>
-
+	
+	<select id="findById" parameterType="int" resultType="postvo">
+		<![CDATA[
+			SELECT id, title, contents, date_format(reg_date,'%Y-%m-%d %h:%i:%s') as regDate, category_id as categoryId 
+			FROM post
+			WHERE id = #{id}
+		]]>
+	</select>
+	
+	<select id="findListById" parameterType="int" resultType="postvo">
+		<![CDATA[
+			SELECT id, title, contents, date_format(reg_date,'%Y-%m-%d %h:%i:%s') as regDate, category_id as categoryId 
+			FROM post
+			WHERE category_id = #{id}
+			ORDER BY reg_date DESC
+		]]>
+	</select>
+	
+	<select id="findDefaultLastById" parameterType="string" resultType="postvo">
+	 <![CDATA[
+    SELECT 
+      p.id,
+      p.title,
+      p.contents,
+      date_format(p.reg_date, '%Y-%m-%d %H:%i:%s') AS regDate,
+      p.category_id AS categoryId
+    FROM post p
+    INNER JOIN category c ON p.category_id = c.id
+    WHERE c.blog_id = #{blogId}
+      AND c.name = '미지정'
+    ORDER BY p.reg_date DESC
+    LIMIT 1
+  ]]>
+	</select>
+	
+	<select id="findLastById" parameterType="map" resultType="postvo">
+	    <![CDATA[
+		SELECT 
+		  p.id,
+		  p.title,
+		  p.contents,
+		  date_format(p.reg_date, '%Y-%m-%d %H:%i:%s') AS regDate,
+		  p.category_id AS categoryId
+		FROM post p
+		INNER JOIN category c ON p.category_id = c.id
+		WHERE c.blog_id = #{blogId}
+		  AND c.id = #{categoryId}
+		ORDER BY p.reg_date DESC
+		LIMIT 1;
+	    ]]>
+	</select>
 	<!-- 
 	
 	<update id="plusHit" parameterType="long">

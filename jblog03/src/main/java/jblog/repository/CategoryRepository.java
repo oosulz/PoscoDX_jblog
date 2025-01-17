@@ -33,4 +33,8 @@ public class CategoryRepository {
 	public void deleteById(int id) {
 		sqlSession.delete("category.deleteById", id);
 	}
+
+	public CategoryVo getDefaultCategoryIdAndName(String id) {
+		return sqlSession.selectOne("category.getDefaultCategoryIdAndName", id);
+	}
 }

@@ -32,14 +32,24 @@
 			WHERE c.blog_id = #{id}
 		]]>
 	</select>
-		
+	
+	<select id="getDefaultCategoryIdAndName" parameterType="string" resultType="categoryvo">
+    <![CDATA[
+        SELECT id , name
+        FROM category
+        WHERE blog_id = #{id}
+        AND name = '미지정'
+    ]]>
+	</select>
+	
+
+	
 		<delete id = "deleteById" parameterType="int">
 	    <![CDATA[
 		    delete from category
 	        where id = #{id}
 	    ]]>
-
-	</delete>
+		</delete>
 	
 
 	

@@ -49,35 +49,69 @@ public class BlogController {
 	public String index(@PathVariable("id") String id, @PathVariable("path1") Optional<Long> path1,
 			@PathVariable("path2") Optional<Long> path2, Model model, HttpServletRequest request) {
 		
+		// 유저 있는지 처리하기
 		UserVo userVo = userService.getUser(id);
 		
 		if (userVo == null) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
 		}
 		
+		// 블로그 정보 불러오기
 		BlogVo blogVo = blogService.getBlog(id);
 		List<CategoryVo> categoryVo = categoryService.getCategories(id);
-		String originalUri = request.getRequestURI();
 		
 		model.addAttribute("categoryList", categoryVo);
 		model.addAttribute("currentId", id);
 		model.addAttribute("blogVo", blogVo);
-		model.addAttribute("originalUri", originalUri);
 		
+		
+		// 카테고리,포스트 처리
 		Long categoryId = 0L;
 		Long postId = 0L;
-
+		
 		if (path2.isPresent()) {
 			categoryId = path1.get();
 			postId = path2.get();
 		} else if (path1.isPresent()) {
 			categoryId = path1.get();
 		}
-
-		// categoryId == 0L -> 기본 카테고리 넘버 찾기
-		// postId == 0L -> 기본 게시글 넘버 찾기
-
-		System.out.println("BlogController.main(" + id + ", " + categoryId);
+		
+		// 미지정 카테고리 아이디 + '미지정' 불러오기
+		Optional<CategoryVo> categoryOptional = categoryService.getDefaultCategoryIdAndName(id);
+		System.out.println("categoryOptional: " + categoryOptional);
+		
+		if (categoryId == 0L) {
+			CategoryVo categoryIdAndName = categoryOptional.orElseThrow(() -> 
+		        new IllegalStateException("Default category not found for blogId: " + id)
+		    );
+		    categoryId = (long) categoryIdAndName.getId();
+		}
+		
+		// 게시물 리스트 불러오기 
+		List<PostVo> postVo = postService.getPostList(categoryId.intValue());
+		model.addAttribute("postList", postVo);
+		
+		String name = categoryOptional.map(CategoryVo::getName).orElse("기본값");
+		
+		// 게시물 불러오기
+		PostVo latestPost = null;
+		
+		if (name.equals("미지정") && postId == 0L) {
+			latestPost = postService.getLastPost(id,categoryId.intValue());
+		} else {
+			latestPost = postService.getPost(postId.intValue());
+		}
+		
+		model.addAttribute("currentCategoryId", categoryId);
+		
+		if (latestPost == null) {
+		    model.addAttribute("post", null);
+		    model.addAttribute("currentPostId", null);
+		} else {
+		    model.addAttribute("post", latestPost);
+		    model.addAttribute("currentPostId", latestPost.getId());
+		}
+		
 		return "blog/main";
 	}
 	
