@@ -82,7 +82,7 @@ public class BlogController {
 		
 		if (categoryId == 0L) {
 			CategoryVo categoryIdAndName = categoryOptional.orElseThrow(() -> 
-		        new IllegalStateException("Default category not found for blogId: " + id)
+			new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid category")
 		    );
 		    categoryId = (long) categoryIdAndName.getId();
 		}

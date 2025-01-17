@@ -26,6 +26,9 @@
 				        </c:when>
 				        <c:otherwise>
 				            <h2>게시물이 존재하지 않습니다.</h2>
+				      		<a href="${pageContext.request.contextPath}/${currentId}" class="move">
+				                   블로그 메인으로 돌아가기
+				            </a>
 				        </c:otherwise>
 				    </c:choose>
 				</div>
